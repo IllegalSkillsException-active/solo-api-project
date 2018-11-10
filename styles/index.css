@@ -1,0 +1,147 @@
+* {
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  button, input[type="text"] {
+    padding: 5px;
+  }
+  
+  button:hover {
+    cursor: pointer;
+  }
+  .js-add-bookmark{
+      margin-right:30px; 
+  }
+  button:hover:disabled {
+    cursor: default;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  #shopping-list-item {
+    width: 250px;
+  }
+  
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .bookmark-options{
+      display: inline-block; 
+  }
+  .star-filter-toggle{
+      display: inline;
+  }
+  .shopping-list {
+    list-style: none;
+    padding-left: 0;
+  }
+  .input-description{
+      margin-top:5%; 
+  }
+  .shopping-list > li {
+    margin-bottom: 20px;
+    border: 1px solid grey;
+    padding: 20px;
+  }
+  .js-item-element{
+      margin-top:10%; 
+      width:70%; 
+      border:2px solid grey; 
+      border-radius: 5%; 
+      padding-left:10px; 
+
+  }
+  .js-input-element{
+    margin-top:2%;
+    width:70%; 
+    border:2px solid black; 
+    border-radius: 5%; 
+    padding-left:10px; 
+  }
+  .save-item-controls{
+      margin-top:20%;
+
+  }
+  .js-item-toggle{
+      margin-left:5%;
+  }
+  .shopping-item {
+    display: block;
+    color: grey;
+    font-style: italic;
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+  
+  .shopping-item__checked {
+    text-decoration: line-through;
+  }
+div {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    color: #000000;
+}
+.list-title{
+    
+    background-color:lightgray; 
+}
+.list-title a {
+        color:black;
+        font-weight: bold;
+        line-height: 40px;
+        height:40px;
+        display:block;
+        padding:0px 10px;
+}
+.add-rating{
+    background-color:lightgray; 
+}
+
+ul, li, a {
+    margin: 0;
+    padding: 0;
+}
+li {
+    list-style: none;
+}
+a {
+    text-decoration: none;
+    color: #000000;
+}
+
+ul li a:hover {
+    background: lightseagreen;
+}
+.sort-rating {
+    display: none;
+    background:lightgray;
+}
+.sort-list {
+    float: none;
+    line-height: 40px;
+    height: 40px;
+}
+.rating-selection{
+    display: none;
+    background:lightgray;
+}
+.submit-rating a {
+    color:black;
+    font-weight: bold;
+    line-height: 40px;
+    height:40px;
+    display:block;
+    padding:0px 10px;
+}
+.rating-select{
+    float: none;
+    line-height: 40px;
+    height: 40px;
+}
