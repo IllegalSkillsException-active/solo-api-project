@@ -1,3 +1,4 @@
+
 const store = (function(){
     const items =[]; 
     const addFormVisible = false; 
@@ -7,7 +8,8 @@ const store = (function(){
             this.addFormVisible = !this.addFormVisible; 
     }
     const toggleViewFormVisible = function (){
-      this.detailedViewVisible = !this.detailedViewVisible; 
+      console.log(detailedViewVisible);
+      this.addFormVisible = !this.addFormVisible; 
     }
     const addItem = function(item) {
       this.items.push(item); 
@@ -20,15 +22,17 @@ const store = (function(){
         const itemIndex = this.items.findIndex(element => element.id === id);
         items.splice(itemIndex,1);
       };
-      const findAndUpdate = function(itemId, newData) {
-        console.log(this.items); 
+      const expandedDisplay = function(){
+            const itemIndex =store.items.findIndex(element => element.id);
+            const currentObject = store.items[itemIndex];
+            return currentObject; 
+      }
+      const findAndUpdate = function(itemId) { 
         const itemIndex = this.items.findIndex(element => element.id === itemId); 
-        console.log(itemIndex); 
-        console.log(items[itemIndex]); 
-         items[itemIndex] = Object.assign(items[itemIndex] ,newData);
+         items[itemIndex].expanded = Object.assign(items[itemIndex] ,newData);
       };
       const toggleExpandedFilter = function() {
-        this.hideExpandedItems = !this.hideExpandedItems;
+        this.detailedViewVisible = !this.detailedViewVisible;
       };
     
       const setItemIsEditing = function(id, isEditing) {
@@ -43,6 +47,6 @@ const store = (function(){
         items, addItem, findById,findAndDelete, findAndUpdate, 
         toggleExpandedFilter, setItemIsEditing, setSearchRating, 
         addFormVisible, toggleAddFormVisible,detailedViewVisible,
-         toggleViewFormVisible, idFromElement
+         toggleViewFormVisible, idFromElement, expandedDisplay
     }
 }());

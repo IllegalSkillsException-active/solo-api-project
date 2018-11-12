@@ -1,4 +1,4 @@
-/* global shoppingList, store */
+/* global bookmarkList, store */
 $(document).ready(function() {
   bookmarkList.bindEventListeners();
 });
