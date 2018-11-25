@@ -22,6 +22,7 @@ const api = (function () {
     };
 
     const createItems = function (newItem, callBack) {
+        console.log(newItem); 
         $.ajax({
             url : `${BASE_URL}/bookmarks`,
             method: 'POST',

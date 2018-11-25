@@ -4,6 +4,11 @@ const store = (function(){
     let addFormVisible = false; 
     let detailedViewVisible = false; 
     const idFromElement = '';
+    let editFormVisible = false; 
+
+    const toggleEditFormVisible = function(){
+        this.editFormVisible = !this.editFormVisible; 
+    }
 
     const toggleAddFormVisible = function(){
             this.addFormVisible = !this.addFormVisible; 
@@ -40,9 +45,9 @@ const store = (function(){
         this.searchTerm = term;
       };
     return {
-        items, addItem, findById,findAndDelete, findAndUpdate, 
+        items, addItem, findById,findAndDelete, findAndUpdate,toggleEditFormVisible,
         toggleExpandedFilter, setItemIsEditing, setSearchRating, 
-        addFormVisible, toggleAddFormVisible,detailedViewVisible,
+        addFormVisible, toggleAddFormVisible,detailedViewVisible,editFormVisible,
         idFromElement, 
     };
 }());
