@@ -37,7 +37,7 @@ const api = (function () {
                 url : `${BASE_URL}/bookmarks/${itemID}`,
                 method: 'PATCH',
                 contentType: 'application/json',
-                data: JSON.stringify(updateData),
+                data: updateData,
                 success: callBack,
                 error: () => alert("UPDATE Item Api call ERROR"),
             })

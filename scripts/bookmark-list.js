@@ -1,16 +1,20 @@
 /* global store, $ */
 const bookmarkList = (function () {
     
-    
+    let objectIndex = undefined;
     const bookmarkClick = function () {
         $('#add-bookmark').on('click', e => {
             // console.log('button clicked'); 
             store.toggleAddFormVisible();
             console.log(store);
+            if(store.editFormVisible){
+                store.toggleEditFormVisible();
+              }
+            objectIndex = undefined;
             render();
         })
     };
-
+    
     const detailedViewClick = function () {
         $('.bookmark-list').on('click','.shopping-item',e => {
             e.preventDefault();
@@ -18,7 +22,7 @@ const bookmarkList = (function () {
             const currentTargetId = getItemIdFromElement(e.currentTarget); 
             const currentObject = store.findById(currentTargetId);
             currentObject.expanded = store.detailedViewVisible; 
-            const objectIndex = store.items.findIndex(element => element.id === currentTargetId);
+            objectIndex = store.items.findIndex(element => element.id === currentTargetId);
             const findAndDisplayExtended = function() {        
                 if (currentObject.expanded) {    
                         store.items.splice(objectIndex,1, currentObject);
@@ -29,40 +33,60 @@ const bookmarkList = (function () {
             console.log('detailed form should be visible');  
         });
     }
+   
     const editingItemClick = function(){
-        $('.bookmark-list').on('click','.js-item-edit',e => {
+
+        $('.bookmark-list').on('click','.js-item-edit',function newFunction(e) {
             e.preventDefault();
             store.toggleEditFormVisible();
+            store.toggleExpandedFilter();
+            console.log('edit button clicked!'); 
             const currentTargetId = getItemIdFromElement(e.currentTarget); 
             const currentObject = store.findById(currentTargetId);
             currentObject.editing = store.editFormVisible; 
-            const objectIndex = store.items.findIndex(element => element.id === currentTargetId);
-            console.log('Edit form should be visible');  
-            return {currentObject, objectIndex};     
-
-            
-
-            
-        });
-        
+            console.log('Edit form should be visible'); 
+            render(); 
+        });  
     }
 
     const handleNewItemSubmit = function() {
         $('.div-form').on('submit','#js-bookmark-list-form', function (event) {
           console.log('save button has been submitted!');
           event.preventDefault();
-          store.toggleAddFormVisible(); 
+          
+          if(store.addFormVisible){
+            store.toggleAddFormVisible(); 
+          }
+          if(store.editFormVisible){
+            store.toggleEditFormVisible();
+          }
           const description = $( "input.input-description.js-description-input" ).val();
           let newBookmark = $(event.target).serializeJson();
           let bookmark2 = JSON.parse(newBookmark); 
           bookmark2.desc = description; 
-          let finalForm = JSON.stringify(bookmark2);
-          api.createItems(finalForm, (newItem) =>{
-          store.addItem(newItem);
-          render();
-         });
-        })   
-    };
+        //   if(objectIndex != undefined){
+
+        //     const oldId = store.items[objectIndex].id;
+        //     bookmark2.id = oldId; 
+        //     updatedBookmark = JSON.stringify(bookmark2);
+        //     console.log(oldId);
+        //     console.log('object index is NOT undefined and final form is: ', bookmark2);   
+        //     api.updateItem(oldId, updatedBookmark, ()=>{
+        //         store.findAndUpdate(oldId, updatedBookmark); 
+        //         render();                   
+        //     });
+        //   }
+          if(objectIndex === undefined){
+            let finalForm = JSON.stringify(bookmark2);
+            console.log('object index IS undefined and final form is:',finalForm); 
+            api.createItems(finalForm, (newItem) =>{
+                store.addItem(newItem);
+                render(); 
+            });
+          } 
+  
+    });
+    }
 
     $.fn.extend({
         serializeJson: function() {
@@ -104,10 +128,10 @@ const bookmarkList = (function () {
             </li>`;
         }
     
-        else {
+        else  {
             let width = store.items[i].rating; 
             let description = store.items[i].desc;
-            console.log('detailed for should be visible'); 
+            console.log('detailed form should be visible'); 
             return `
                 <li class="js-item-element" data-item-id="${item.id}">
                     ${itemTitle}
@@ -148,27 +172,40 @@ const bookmarkList = (function () {
     }
   
     const newPerspective = function() {
-        const findObject = editingItemClick(); 
-        console.log(findObject);  
-        if(store.addFormVisible) {
+        let newTitle =""; 
+        let newUrl= "";
+        let newRating= "";
+        let newDescription= ""; 
+
+        let editDetails =store.items[objectIndex];
+        if(editDetails != undefined){
+        newTitle += editDetails.title; 
+        newUrl += editDetails.url; 
+        newRating += editDetails.rating;
+        newDescription += editDetails.desc;
+        
+            };  
+        console.log(editDetails); 
+        if(store.addFormVisible || store.editFormVisible) {
             console.log('form should be visible');
             $('#js-bookmark-list-form').html(
-               `<input type='text' class='input-title js-title-input' name = 'title' placeholder='Add Title Here' value=''>
-                <input type='text' name = 'url' class='input-url js-url-input' placeholder='Add URL Here' value=''>
-                <input name= 'rating' type='number' class= 'rating-input' placeholder='input your rating here' value=''> 
+               `<input type='text' class='input-title js-title-input' name = 'title' placeholder='Add Title Here' value='${newTitle}'>
+                <input type='text' name = 'url' class='input-url js-url-input' placeholder='Add URL Here' value='${newUrl}'>
+                <input name= 'rating' type='number' class= 'rating-input' placeholder='input your rating here' value='${newRating}'> 
                 <li class="js-input-element">
-                <input type='text' class='input-description js-description-input' placeholder='Add Description Here' value=''>
+                <input type='text' class='input-description js-description-input' placeholder='Add Description Here' value='${newDescription}'>
                 <div class="save-item-controls">
                 <button class="shopping-item-toggle js-item-toggle" id="save-button" type ='submit'>
                 <span class="button-label">Save</span>
                 </button>
                 </div>
                 </li>
-                </li>`  
-             )
+                </li>`         
+             );
         }else {
             $('#js-bookmark-list-form').html('');
         }
+         
     }
 
     function handleDeleteItemClicked() {

@@ -30,7 +30,7 @@ const store = (function(){
         items.splice(itemIndex,1);
     };
 
-    const findAndUpdate = function(itemId) { 
+    const findAndUpdate = function(itemId, newData) { 
         const itemIndex = this.items.findIndex(element => element.id === itemId); 
          items[itemIndex].expanded = Object.assign(items[itemIndex] ,newData);
       };
